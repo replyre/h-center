@@ -5,6 +5,7 @@ const MainContainer = () => {
   const [filterCards, setFilterCards] = useState(null);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchAllCards();
@@ -22,6 +23,7 @@ const MainContainer = () => {
   };
   // console.log(search);
   async function fetchAllCards() {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:5000/api/cards", {
         method: "GET",
@@ -36,9 +38,13 @@ const MainContainer = () => {
 
       const cards = await response.json();
       setCards(cards);
+      setError("");
     } catch (error) {
       console.error("Failed to fetch cards:", error);
       setError(error);
+      setCards([]);
+    } finally {
+      setLoading(false);
     }
   }
   return (
@@ -72,6 +78,11 @@ const MainContainer = () => {
       </div>
       <div className="w-full md:p-20 p-5 bg-white md:px-40 lg:px-80 ">
         <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
+          {loading && (
+            <div className=" col-span-2">
+              <img src="loading.svg" alt="" className="h-80 m-auto" />
+            </div>
+          )}
           {search == "" &&
             cards &&
             cards.map((card) => {
