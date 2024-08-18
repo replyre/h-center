@@ -53,7 +53,7 @@ PORT=5000
 
 - **`MONGO_URL`**: The connection string for your MongoDB instance.
 - **`PORT`**: The port on which the backend server will run. (Default: 5000)
-
+- **NOTE**: If you change port here (other than 5000), please change the API URL in front-end as well `FrontEnd\src\components\MainContainer`
 ### 4. Start the Backend Server
 
 ```bash
